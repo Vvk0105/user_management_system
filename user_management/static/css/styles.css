@@ -93,6 +93,7 @@ button:hover {
 
 .note-actions {
     margin-top: 8px;
+    display: flex;
 }
 
 .note-actions button {

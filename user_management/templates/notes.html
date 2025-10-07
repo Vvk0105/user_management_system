@@ -54,6 +54,9 @@
         success: function(res) {
           let html = '';
           res.forEach(note => {
+            console.log(note);
+            const createdTime = new Date(note.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const modifiedTime = new Date(note.modified_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             let attachmentLink = note.attachment
               ? `<a href="${note.attachment}" target="_blank">Download Attachment</a>`
               : 'No attachment';
@@ -63,6 +66,8 @@
                 <p><strong>Title:</strong> ${note.title}</p>
                 <p><strong>Description:</strong> ${note.description}</p>
                 <p><strong>Attachment:</strong> ${attachmentLink}</p>
+                <p><strong>Created At:</strong> ${createdTime}</p>
+                <p><strong>Modified At:</strong> ${modifiedTime}</p>
                 <div class="note-actions">
                   <button class="editBtn" data-id="${note.id}">Edit</button>
                   <button class="deleteBtn">Delete</button>

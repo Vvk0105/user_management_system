@@ -41,6 +41,7 @@
     <input id="mobile_number" placeholder="Mobile Number">
 
     <button id="updateBtn">Update Profile</button>
+    <button id="resetPasswordBtn">Reset Password</button>
 </div>
 
 <script>
@@ -96,6 +97,10 @@ $('#updateBtn').click(function(){
 
 $('#backBtn').click(function() {
     window.location.href = `${baseUrl}/user-notes/`;
+});
+
+$('#resetPasswordBtn').click(function() {
+    window.location.href = `${baseUrl}/reset-password/`; 
 });
 
 loadProfile();

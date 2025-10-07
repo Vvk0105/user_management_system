@@ -5,6 +5,8 @@ from .serializers import UserSerializer, ProfileSerializer
 from .models import Profile
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 # Create your views here.
 class RegisterView(generics.CreateAPIView):
@@ -27,6 +29,19 @@ class ProfileView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
     
+class ResetPasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        new_password = request.data.get("password")
+        if not new_password:
+            return Response({"error": "Password is required."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user.set_password(new_password)
+        user.save()
+        return Response({"message": "Password updated successfully! Please login again."})
+    
 def user_register(request):
     return render(request, 'register.html')
 
@@ -41,3 +56,6 @@ def user_notes(request):
 
 def edit_note(request):
     return render(request, 'edit_note.html')
+
+def reset_password(request):
+    return render(request, 'reset_password.html')
