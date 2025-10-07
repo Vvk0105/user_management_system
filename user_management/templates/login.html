@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { margin: 5px 0; padding: 8px; width: 250px; }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h2>Login</h2>
+<input id="username" placeholder="Username"><br>
+<input id="password" type="password" placeholder="Password"><br>
+<button id="loginBtn">Login</button>
+
+<p>Don't have an account? <a href="register.html">Register here</a></p>
+
+<script>
+const baseUrl = "http://127.0.0.1:8000/api";
+
+$('#loginBtn').click(function(){
+    const data = {
+        username: $('#username').val(),
+        password: $('#password').val()
+    };
+    $.ajax({
+        url: `${baseUrl}/login/`,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(res){
+            localStorage.setItem('access', res.access);
+            localStorage.setItem('refresh', res.refresh);
+            alert("Login successful!");
+            window.location.href = `${baseUrl}/user-notes/`;
+        },
+        error: function(err){
+            console.log(err);
+            alert("Login failed. Check username/password.");
+        }
+    });
+});
+</script>
+</body>
+</html>

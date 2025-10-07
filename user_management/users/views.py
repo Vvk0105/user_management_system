@@ -26,3 +26,15 @@ class ProfileView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+    
+def user_register(request):
+    return render(request, 'register.html')
+
+def login_page(request):
+    return render(request, 'login.html')
+
+def profile_edit(request):
+    return render(request, 'profile.html')
+
+def user_notes(request):
+    return render(request, 'notes.html')

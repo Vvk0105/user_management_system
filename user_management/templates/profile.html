@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { margin: 5px 0; padding: 8px; width: 300px; }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h2>My Profile</h2>
+<input id="full_name" placeholder="Full Name"><br>
+<input id="date_of_birth" type="date" placeholder="Date of Birth"><br>
+<input id="email" placeholder="Email"><br>
+<input id="address" placeholder="Address"><br>
+<select id="gender">
+  <option value="">Select Gender</option>
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+</select><br>
+<input id="mobile_number" placeholder="Mobile Number"><br>
+<button id="updateBtn">Update Profile</button>
+
+<script>
+const baseUrl = "http://127.0.0.1:8000/api";
+const token = localStorage.getItem('access');
+
+function loadProfile(){
+    $.ajax({
+        url: `${baseUrl}/profile/`,
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token },
+        success: function(res){
+            $('#full_name').val(res.full_name);
+            $('#date_of_birth').val(res.date_of_birth);
+            $('#email').val(res.email);
+            $('#address').val(res.address);
+            $('#gender').val(res.gender);
+            $('#mobile_number').val(res.mobile_number);
+        },
+        error: function(err){
+            console.log(err);
+            alert("Failed to load profile.");
+        }
+    });
+}
+
+
+$('#updateBtn').click(function(){
+    const data = {
+        full_name: $('#full_name').val(),
+        date_of_birth: $('#date_of_birth').val(),
+        email: $('#email').val(),
+        address: $('#address').val(),
+        gender: $('#gender').val(),
+        mobile_number: $('#mobile_number').val()
+    };
+    $.ajax({
+        url: `${baseUrl}/profile/`,
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token },
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(res){
+            alert("Profile updated successfully!");
+            window.location.href = `${baseUrl}/user-notes/`;
+        },
+        error: function(err){
+            console.log(err);
+            alert("Failed to update profile.");
+        }
+    });
+});
+
+loadProfile();
+</script>
+
+</body>
+</html>

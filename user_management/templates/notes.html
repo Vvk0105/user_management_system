@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes Dashboard</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { margin: 5px; padding: 10px 15px; }
+    #notesList { margin-top: 20px; }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h2>Welcome to Notes Dashboard</h2>
+
+<button id="profileBtn">Edit Profile</button>
+<button id="logoutBtn">Logout</button>
+
+
+<script>
+const baseUrl = "http://127.0.0.1:8000/api";
+const token = localStorage.getItem('access');
+
+$('#profileBtn').click(function(){
+    window.location.href = `${baseUrl}/edit-profile/`;
+});
+
+$('#logoutBtn').click(function(){
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+    alert("Logged out successfully!");
+    window.location.href = `${baseUrl}/login-page/`;
+});
+
+function loadNotes(){
+    $('#notesList').html("<p>Notes will appear here after CRUD implementation.</p>");
+}
+
+loadNotes();
+</script>
+
+</body>
+</html>

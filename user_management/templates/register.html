@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { margin: 5px 0; padding: 8px; width: 250px; }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h2>Register</h2>
+<input id="username" placeholder="Username"><br>
+<input id="email" placeholder="Email"><br>
+<input id="password" type="password" placeholder="Password"><br>
+<button id="registerBtn">Register</button>
+
+<p>Already have an account? <a href="login.html">Login here</a></p>
+
+<script>
+const baseUrl = "http://127.0.0.1:8000/api";
+
+$('#registerBtn').click(function(){
+    const data = {
+        username: $('#username').val(),
+        email: $('#email').val(),
+        password: $('#password').val()
+    };
+    $.ajax({
+        url: `${baseUrl}/register/`,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(res){
+            alert("Registration successful! Please login.");
+            window.location.href = `${baseUrl}/login-page/`;
+        },
+        error: function(err){
+            console.log(err);
+            alert("Registration failed. Check console for details.");
+        }
+    });
+});
+</script>
+</body>
+</html>
