@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <title>Edit Note</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="navbar">
+    <h2>Edit Note</h2>
+    <div>
+      <button id="backBtn">Back</button>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h3>Update Your Note</h3>
+    <label>Title:</label>
+    <input id="noteTitle" placeholder="Enter Title">
+
+    <label>Description:</label>
+    <textarea id="noteDesc" placeholder="Enter Description"></textarea>
+
+    <label>Attachment:</label>
+    <a id="existingAttachment" class="attachment-link" target="_blank"></a>
+    <input type="file" id="noteAttachment">
+
+    <button id="updateNoteBtn">Update Note</button>
+  </div>
+
+  <script>
+    const baseUrl = "http://127.0.0.1:8000/api";
+    const token = localStorage.getItem('access');
+
+    const params = new URLSearchParams(window.location.search);
+    const noteId = params.get('note_id');
+
+    if (!token) {
+      alert("Please login first!");
+      window.location.href = `${baseUrl}/login-page/`;
+    }
+
+    function loadNote() {
+      $.ajax({
+        url: `${baseUrl}/notes/${noteId}/`,
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token },
+        success: function(res) {
+          $('#noteTitle').val(res.title);
+          $('#noteDesc').val(res.description);
+          if (res.attachment) {
+            $('#existingAttachment')
+              .attr('href', res.attachment)
+              .text('View Current Attachment');
+          } else {
+            $('#existingAttachment').text('No attachment uploaded');
+          }
+        },
+        error: function(err) {
+          console.log(err);
+          alert("Failed to load note details.");
+        }
+      });
+    }
+
+    $('#updateNoteBtn').click(function() {
+      const formData = new FormData();
+      formData.append('title', $('#noteTitle').val());
+      formData.append('description', $('#noteDesc').val());
+
+      const fileInput = $('#noteAttachment')[0].files[0];
+      if (fileInput) formData.append('attachment', fileInput);
+
+      $.ajax({
+        url: `${baseUrl}/notes/${noteId}/`,
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + token },
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function() {
+          alert("Note updated successfully!");
+          window.location.href = `${baseUrl}/user-notes/`;
+        },
+        error: function(err) {
+          console.log(err);
+          alert("Failed to update note.");
+        }
+      });
+    });
+
+    $('#backBtn').click(function() {
+      window.location.href = `${baseUrl}/user-notes/`;
+    });
+
+    $('#logoutBtn').click(function() {
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      alert("Logged out successfully!");
+      window.location.href = `${baseUrl}/login-page/`;
+    });
+
+    loadNote();
+  </script>
+</body>
+</html>

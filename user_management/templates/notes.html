@@ -1,45 +1,134 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Notes Dashboard</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    button { margin: 5px; padding: 10px 15px; }
-    #notesList { margin-top: 20px; }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-<h2>Welcome to Notes Dashboard</h2>
+  <div class="navbar">
+    <h2>Notes Dashboard</h2>
+    <div class="nav-links">
+      <button id="profileBtn">Profile</button>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </div>
 
-<button id="profileBtn">Edit Profile</button>
-<button id="logoutBtn">Logout</button>
+  <div class="container">
+    <h3>Add New Note</h3>
+    <input id="noteTitle" placeholder="Enter Title">
+    <textarea id="noteDesc" placeholder="Enter Description"></textarea>
+    <input type="file" id="noteAttachment">
+    <button id="addNoteBtn">Add Note</button>
 
+    <hr>
 
-<script>
-const baseUrl = "http://127.0.0.1:8000/api";
-const token = localStorage.getItem('access');
+    <h3>Your Notes</h3>
+    <div id="notesList"></div>
+  </div>
 
-$('#profileBtn').click(function(){
-    window.location.href = `${baseUrl}/edit-profile/`;
-});
+  <script>
+    const baseUrl = "http://127.0.0.1:8000/api";
+    const token = localStorage.getItem('access');
 
-$('#logoutBtn').click(function(){
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-    alert("Logged out successfully!");
-    window.location.href = `${baseUrl}/login-page/`;
-});
+    $('#profileBtn').click(function() {
+      window.location.href = `${baseUrl}/edit-profile/`;
+    });
 
-function loadNotes(){
-    $('#notesList').html("<p>Notes will appear here after CRUD implementation.</p>");
-}
+    $('#logoutBtn').click(function() {
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      alert("Logged out successfully!");
+      window.location.href = `${baseUrl}/login-page/`;
+    });
 
-loadNotes();
-</script>
+    function loadNotes() {
+      $.ajax({
+        url: `${baseUrl}/notes/`,
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token },
+        success: function(res) {
+          let html = '';
+          res.forEach(note => {
+            let attachmentLink = note.attachment
+              ? `<a href="${note.attachment}" target="_blank">Download Attachment</a>`
+              : 'No attachment';
 
+            html += `
+              <div class="note" data-id="${note.id}">
+                <p><strong>Title:</strong> ${note.title}</p>
+                <p><strong>Description:</strong> ${note.description}</p>
+                <p><strong>Attachment:</strong> ${attachmentLink}</p>
+                <div class="note-actions">
+                  <button class="editBtn" data-id="${note.id}">Edit</button>
+                  <button class="deleteBtn">Delete</button>
+                </div>
+              </div>`;
+          });
+          $('#notesList').html(html);
+        },
+        error: function(err) {
+          console.log(err);
+          $('#notesList').html("<p>Failed to load notes.</p>");
+        }
+      });
+    }
+
+    $('#addNoteBtn').click(function() {
+      const formData = new FormData();
+      formData.append('title', $('#noteTitle').val());
+      formData.append('description', $('#noteDesc').val());
+      const fileInput = $('#noteAttachment')[0].files[0];
+      if (fileInput) formData.append('attachment', fileInput);
+
+      $.ajax({
+        url: `${baseUrl}/notes/`,
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(res) {
+          $('#noteTitle').val('');
+          $('#noteDesc').val('');
+          $('#noteAttachment').val('');
+          loadNotes();
+        },
+        error: function(err) {
+          console.log(err);
+          alert("Failed to add note.");
+        }
+      });
+    });
+
+    $('#notesList').on('click', '.editBtn', function() {
+      const noteId = $(this).data('id');
+      window.location.href = "{% url 'edit_note' %}?note_id=" + noteId;
+    });
+
+    $('#notesList').on('click', '.deleteBtn', function() {
+      const noteDiv = $(this).closest('.note');
+      const noteId = noteDiv.data('id');
+      $.ajax({
+        url: `${baseUrl}/notes/${noteId}/`,
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token },
+        success: function(res) {
+          alert("Note deleted successfully!");
+          loadNotes();
+        },
+        error: function(err) {
+          console.log(err);
+          alert("Failed to delete note.");
+        }
+      });
+    });
+
+    loadNotes();
+  </script>
 </body>
 </html>

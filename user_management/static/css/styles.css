@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links{
+    display: flex;
+}
+
+.navbar h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.navbar button {
+    background: white;
+    color: #007bff;
+    border: none;
+    padding: 6px 12px;
+    margin-left: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.navbar button:hover {
+    background: #e9ecef;
+}
+
+.container {
+    padding: 20px;
+    max-width: 700px;
+    margin: auto;
+}
+
+input, textarea, button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 60px;
+    resize: none;
+}
+
+button {
+    width: auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.attachment-link {
+    margin: 10px 0;
+    display: inline-block;
+}
+
+.note {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.note h4 {
+    margin: 0 0 5px 0;
+    color: #007bff;
+}
+
+.note-actions {
+    margin-top: 8px;
+}
+
+.note-actions button {
+    background: #28a745;
+    color: white;
+    margin-right: 5px;
+}
+
+.note-actions .deleteBtn {
+    background: #dc3545;
+}
+
+.note-actions button:hover {
+    opacity: 0.9;
+}

@@ -38,3 +38,6 @@ def profile_edit(request):
 
 def user_notes(request):
     return render(request, 'notes.html')
+
+def edit_note(request):
+    return render(request, 'edit_note.html')
