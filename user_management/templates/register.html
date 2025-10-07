@@ -5,18 +5,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+<style>
+body {
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+}
+.form-container {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  width: 350px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  text-align: center;
+}
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+button {
+  background: #ff758c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+button:hover {
+  background: #ff5f7f;
+}
+p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+a {
+  color: #ff758c;
+  text-decoration: none;
+  font-weight: 500;
+}
+</style>
 <body>
 
-<h2>Register</h2>
-<input id="username" placeholder="Username"><br>
-<input id="email" placeholder="Email"><br>
-<input id="password" type="password" placeholder="Password"><br>
-<button id="registerBtn">Register</button>
+ <div class="form-container">
+  <h2>Register</h2>
+  <input id="username" placeholder="Username"><br>
+  <input id="email" placeholder="Email"><br>
+  <input id="password" type="password" placeholder="Password"><br>
+  <button id="registerBtn">Register</button>
+  <p>Already have an account? <a href="{% url 'login_page' %}">Login here</a></p>
+</div>
 
-<p>Already have an account? <a href="login.html">Login here</a></p>
 
 <script>
 const baseUrl = "http://127.0.0.1:8000/api";
@@ -38,7 +91,7 @@ $('#registerBtn').click(function(){
         },
         error: function(err){
             console.log(err);
-            alert("Registration failed. Check console for details.");
+            alert("Registration failed.");
         }
     });
 });

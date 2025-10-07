@@ -9,19 +9,39 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<div class="navbar">
+    <h2>My Profile</h2>
+    <div class="nav-links">
+        <button id="backBtn">Back</button>
+        <button id="logoutBtn">Logout</button>
+    </div>
+</div>
 
-<h2>My Profile</h2>
-<input id="full_name" placeholder="Full Name"><br>
-<input id="date_of_birth" type="date" placeholder="Date of Birth"><br>
-<input id="email" placeholder="Email"><br>
-<input id="address" placeholder="Address"><br>
-<select id="gender">
-  <option value="">Select Gender</option>
-  <option value="Male">Male</option>
-  <option value="Female">Female</option>
-</select><br>
-<input id="mobile_number" placeholder="Mobile Number"><br>
-<button id="updateBtn">Update Profile</button>
+<div class="container">
+    <label>Full Name:</label>
+    <input id="full_name" placeholder="Full Name">
+
+    <label>Date of Birth:</label>
+    <input id="date_of_birth" type="date">
+
+    <label>Email:</label>
+    <input id="email" placeholder="Email">
+
+    <label>Address:</label>
+    <input id="address" placeholder="Address">
+
+    <label>Gender:</label>
+    <select id="gender">
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+
+    <label>Mobile Number:</label>
+    <input id="mobile_number" placeholder="Mobile Number">
+
+    <button id="updateBtn">Update Profile</button>
+</div>
 
 <script>
 const baseUrl = "http://127.0.0.1:8000/api";
@@ -72,6 +92,10 @@ $('#updateBtn').click(function(){
             alert("Failed to update profile.");
         }
     });
+});
+
+$('#backBtn').click(function() {
+    window.location.href = `${baseUrl}/user-notes/`;
 });
 
 loadProfile();

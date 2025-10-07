@@ -8,17 +8,21 @@
   <title>Edit Note</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+</style>
 <body>
-  <div class="navbar">
+   <div class="edit-container">
     <h2>Edit Note</h2>
-    <div>
-      <button id="backBtn">Back</button>
-      <button id="logoutBtn">Logout</button>
-    </div>
-  </div>
 
-  <div class="container">
-    <h3>Update Your Note</h3>
     <label>Title:</label>
     <input id="noteTitle" placeholder="Enter Title">
 
@@ -29,7 +33,10 @@
     <a id="existingAttachment" class="attachment-link" target="_blank"></a>
     <input type="file" id="noteAttachment">
 
-    <button id="updateNoteBtn">Update Note</button>
+    <div class="buttons">
+      <button id="backBtn">Back</button>
+      <button id="updateNoteBtn">Update</button>
+    </div>
   </div>
 
   <script>
@@ -84,7 +91,7 @@
         contentType: false,
         success: function() {
           alert("Note updated successfully!");
-          window.location.href = `${baseUrl}/user-notes/`;
+          window.location.href = "notes.html";
         },
         error: function(err) {
           console.log(err);
@@ -106,5 +113,6 @@
 
     loadNote();
   </script>
+
 </body>
 </html>
