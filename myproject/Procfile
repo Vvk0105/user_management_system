@@ -1,1 +1,1 @@
-web: python -c "import os; print('PROCFILE: Current directory:', os.getcwd()); print('PROCFILE: Files in root:', [f for f in os.listdir('.') if not f.startswith('.')]); print('PROCFILE: Checking user_management:', os.path.exists('user_management')); import sys; sys.exit(1)"
+web: gunicorn user_management.wsgi:application --bind 0.0.0.0:$PORT
