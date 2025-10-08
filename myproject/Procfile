@@ -1,1 +1,1 @@
-web: gunicorn user_management.wsgi:application --bind 0.0.0.0:$PORT
+web: cd /opt/render/project/src && python -c "import os; print('CURRENT DIR:', os.getcwd()); print('FILES:', [f for f in os.listdir('.')]); print('USER_MANAGEMENT EXISTS:', os.path.exists('user_management')); import sys; sys.exit(1)"
