@@ -174,25 +174,3 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
-
-# EMERGENCY CORS FIX - Add at bottom of settings.py
-import django
-from django.core.handlers.wsgi import WSGIHandler
-
-class CorsWSGIHandler(WSGIHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-    def __call__(self, environ, start_response):
-        def custom_start_response(status, headers, exc_info=None):
-            # Add CORS headers to every response
-            headers.append(('Access-Control-Allow-Origin', '*'))
-            headers.append(('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS'))
-            headers.append(('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With'))
-            return start_response(status, headers, exc_info)
-        
-        return super().__call__(environ, custom_start_response)
-
-# Replace the default handler
-django.setup = lambda: None
-application = CorsWSGIHandler()
