@@ -25,12 +25,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-secret-key')
 DEBUG = os.environ.get('DEBUG', '') != 'False'
-
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://user-management-system-pr7x.onrender.com",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://user-management-system-pr7x.onrender.com',
+]
 ALLOWED_HOSTS = [
-    'localhost',
     '127.0.0.1',
-    '.onrender.com',  
-    '.render.com',   
+    'localhost',
+    'user-management-system-pr7x.onrender.com'
 ]
 
 # Application definition
