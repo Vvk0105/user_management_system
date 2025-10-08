@@ -27,7 +27,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-secret-key')
 DEBUG = os.environ.get('DEBUG', '') != 'False'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
-    "https://user-management-system-pr7x.onrender.com",
+    "https://user-management-system-pr7x.onrender.com", 
+    "https://user-management-system-pr7y.onrender.com", 
     "http://127.0.0.1:8000",
     "http://localhost:8000",
 ]
@@ -50,7 +51,9 @@ CSRF_TRUSTED_ORIGINS = [
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'user-management-system-pr7x.onrender.com'
+    'user-management-system-pr7x.onrender.com', 
+    'user-management-system-pr7y.onrender.com', 
+    '.onrender.com'  
 ]
 
 # Application definition
@@ -70,15 +73,15 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+     'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True 
