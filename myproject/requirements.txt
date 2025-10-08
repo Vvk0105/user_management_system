@@ -13,4 +13,4 @@ typing_extensions==4.15.0
 tzdata==2025.2
 waitress==3.0.2
 whitenoise>=6.0
-django-cors-headers==4.9.0
+django-cors-headers==4.3.1
