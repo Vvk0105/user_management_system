@@ -96,5 +96,41 @@ $('#registerBtn').click(function(){
     });
 });
 </script>
+<script>
+  console.log('JavaScript loaded!'); // This should appear in console
+
+$('#registerForm').on('submit', function(e) {
+    e.preventDefault(); // Prevent normal form submission
+    console.log('Form submitted!'); // Check if this appears
+    
+    const username = $('#username').val();
+    const email = $('#email').val();
+    const password = $('#password').val();
+    
+    console.log('Form data:', {username, email, password}); // Log the data
+    
+    const baseUrl = "https://user-management-system-pr7y.onrender.com/api";
+    
+    $.ajax({
+        url: `${baseUrl}/register/`,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            username: username,
+            email: email,
+            password: password
+        }),
+        success: function(response) {
+            console.log('Success:', response);
+            alert('Registration successful!');
+        },
+        error: function(xhr, status, error) {
+            console.log('Error:', error);
+            console.log('Response:', xhr.responseText);
+            alert('Registration failed: ' + error);
+        }
+    });
+});
+</script>
 </body>
 </html>
