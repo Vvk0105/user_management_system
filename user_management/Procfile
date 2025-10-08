@@ -1,1 +1,1 @@
-web: gunicorn user_management.user_management.wsgi --log-file -
+web: cd user_management && gunicorn user_management.wsgi --log-file -
