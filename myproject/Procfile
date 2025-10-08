@@ -1,1 +1,1 @@
-web: python debug.py
+web: gunicorn user_management.wsgi --log-file -

@@ -1,0 +1,10 @@
+# render.yaml
+services:
+  - type: web
+    name: your-app-name
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn user_management.wsgi --log-file -"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
